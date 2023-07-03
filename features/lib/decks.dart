@@ -189,16 +189,41 @@ class BattleDeck {
   }
 }
 
-void battle(BattleCard card1, BattleCard card2, List<int> scores) {
+void battle(BattleCard card1, BattleCard card2, List<int> scores,
+    BattleDeck p1Deck, BattleDeck p2Deck) {
   print("PLayer1 Card: ${card1.rank} : ${card1.suit}");
   print("PLayer2 Card: ${card2.rank} : ${card2.suit}");
 
   if (card1.rank.value > card2.rank.value) {
     scores[0]++;
-  } else if (card1.rank.value == card2.rank.value) {
-    scores[0]++;
-    scores[1]++;
-  } else {
+  } else if (card1.rank.value == card2.rank.value &&
+      p1Deck.battleCards.length > 2) {
+    print("War!");
+    BattleCard p1Card = card1;
+    BattleCard p2Card = card2;
+    BattleDeck playerOneDeck = p1Deck;
+    BattleDeck playerTwoDeck = p2Deck;
+
+    for (int i = 0; i < 3; i++) {
+      (p1Card, playerOneDeck) = p1Deck.battlingCard;
+      (p2Card, playerTwoDeck) = p2Deck.battlingCard;
+    }
+
+    if (p2Card.rank.value < p1Card.rank.value) {
+      print("Player 1: ${p1Card.rank.value} Player 2: ${p2Card.rank.value}");
+      print("Player 1 wins the war!");
+      scores[0]++;
+    } else if (p2Card.rank.value > p1Card.rank.value) {
+      print("Player 2: ${p2Card.rank.value} Player 1: ${p1Card.rank.value}");
+      print("Player 2 wins the war!");
+      scores[1]++;
+    } else {
+      print("Player 2: ${p2Card.rank.value} Player 1: ${p1Card.rank.value}");
+      scores[0]++;
+      scores[1]++;
+      print("Tied!");
+    }
+  } else if (card1.rank.value < card2.rank.value) {
     scores[1]++;
   }
 }

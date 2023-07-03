@@ -14,6 +14,7 @@ void main() {
   var gameDeck1 = battleDeck.shuffle;
   var gameDeck2 = battleDeck.shuffle;
 
+
   int firstPlayerScore = 0;
   int secondPlayerScore = 0;
   List<int> scores = [firstPlayerScore, secondPlayerScore];
@@ -28,7 +29,7 @@ void main() {
     (battleCard1, gameDeck1) = gameDeck1.battlingCard;
     (battleCard2, gameDeck2) = gameDeck2.battlingCard;
 
-    battle(battleCard1, battleCard2, scores);
+    battle(battleCard1, battleCard2, scores, gameDeck1, gameDeck2);
 
     /* switch (hand) {
       case NoCard():
@@ -89,3 +90,4 @@ void main() {
 
   print("End");
 }
+
