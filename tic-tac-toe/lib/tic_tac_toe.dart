@@ -38,17 +38,28 @@ void PrintBoard(List<List<String>> board) {
   print(delimiter);
 }
 
-bool MakeMove(int row, int col, List<List<String>> board,
-    (String name, String symbol) player) {
+bool MakeMove(int row, int col, List<List<String>> board, String playerSymbol) {
   if (row >= 0 &&
       row < ROWS &&
       col < COLS &&
       col >= 0 &&
       board[row][col] == ' ') {
-    board[row][col] = player.$2;
+    board[row][col] = playerSymbol;
     return true;
   }
   return false;
+}
+
+bool MakeAiMove(List<List<String>> board, int bestCell, String aiSymbol) {
+  if (bestCell >= 0) {
+    int boardSize = board.length;
+    int row = bestCell ~/ boardSize;
+    int col = bestCell % boardSize;
+    board[row][col] = aiSymbol;
+    return true;
+  } else {
+    return false;
+  }
 }
 
 bool checkForWin(List<List<String>> board) {
@@ -158,12 +169,19 @@ int getBestMove(List<List<String>> board) {
   int highest = -999;
 
   // Step through cellRank to find the best available score
-  for (int j = 0; j < board.length; j++) {
-    if (cellRank[j] > highest) {
-      highest = cellRank[j];
-      bestCell = j;
+  for (int r = 0; r < ROWS; r++) {
+    for (int c = 0; c < COLS; c++) {
+      int index = r * ROWS + c;
+      if (cellRank[index] > highest && board[r][c] == ' ') {
+        highest = cellRank[index];
+        bestCell = index;
+      }
     }
   }
 
   return bestCell;
+}
+
+int togglePlayer(int player) {
+  return player = player == 1 ? 0 : 1;
 }
